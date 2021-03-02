@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Uri videoUri = null;
     private VideoView mVideoView;
     MediaRecorder recorder;
-
-
+    File file;
+    String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +69,18 @@ public class MainActivity extends AppCompatActivity {
             videoUri = data.getData();
             playVideo();
             Log.d("VideoUri", videoUri + "");
-            File file = new File(getRealPathFromURI(this, videoUri));
+            file= new File(getRealPathFromURI(this, videoUri));
             long length = file.length();
             length = length / 1024;
             long mb = length / 1024;
             Toast.makeText(this, "Video size:" + length + "KB,  " + mb + "MB", Toast.LENGTH_LONG).show();
 
             try {
-                String path = data.getData().toString();
+                path = data.getData().toString();
                 mVideoView.setVideoPath(path);
                 mVideoView.requestFocus();
                 mVideoView.start();
+
 
 
             } catch (Exception ex) {
@@ -106,4 +107,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void shareVideo(View view) {
+
+        Uri uri = Uri.parse(videoUri.toString());
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("video/*");
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        this.startActivity(Intent.createChooser(share, "Share Video File"));
+    }
+
+    public void upload(View view) {
+        Toast.makeText(this, videoUri.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteVideo(View view) {
+
+
+        File videoFile = new File(path);
+        if(videoFile.exists())
+        {
+            videoFile.delete();
+        }
+        // delete the mediastore entry;
+        this.getContentResolver().delete(videoUri, null, null);
+    }
+
+
+
 }

@@ -31,8 +31,33 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:text="Play"
+        android:text="Upload"
         app:backgroundTint="#751717"
-        app:iconTint="#FFFFFF" />
+        app:iconTint="#FFFFFF"
+        android:onClick="upload"/>
+
+    <Button
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="226dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/ic_baseline_share_24"
+        android:onClick="shareVideo"
+        app:backgroundTint="#751717" />
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="119dp"
+        android:layout_marginBottom="2dp"
+     android:text="Delete"
+        android:onClick="deleteVideo"
+        app:backgroundTint="#751717" />
 
 </RelativeLayout>
