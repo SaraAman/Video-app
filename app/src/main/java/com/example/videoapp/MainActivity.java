@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     MediaRecorder recorder;
     File file;
     String path;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (videoIntent.resolveActivity(getPackageManager()) != null) {
             videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
             startActivityForResult(videoIntent, VIDEO_REQUEST);
+            mVideoView.setVisibility(View.VISIBLE);
 
 
         }
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             videoUri = data.getData();
             playVideo();
             Log.d("VideoUri", videoUri + "");
-            file= new File(getRealPathFromURI(this, videoUri));
+            file = new File(getRealPathFromURI(this, videoUri));
             long length = file.length();
             length = length / 1024;
             long mb = length / 1024;
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 mVideoView.setVideoPath(path);
                 mVideoView.requestFocus();
                 mVideoView.start();
-
 
 
             } catch (Exception ex) {
@@ -123,16 +124,37 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteVideo(View view) {
 
-
-        File videoFile = new File(path);
-        if(videoFile.exists())
-        {
-            videoFile.delete();
-        }
-        // delete the mediastore entry;
+       mVideoView.setVideoURI(null);
+        File videoFiles = new File(videoUri.getPath());
+        videoFiles.delete();
         this.getContentResolver().delete(videoUri, null, null);
+        mVideoView.clearAnimation();
+        mVideoView.setVisibility(View.GONE);
     }
-
-
-
 }
+
+//        try {
+//            Uri uri = Uri.parse(videoUri.toString());
+//            File videoFile = new File(path);
+//            videoFile.getAbsoluteFile(uri.getPath(path));
+//            // if (videoFile.exists()) {
+//            boolean ret = videoFile.delete();
+//            int rett = this.getContentResolver().delete(videoUri, null, null);
+//            Log.d("Entry Delted", String.valueOf(ret + "----" + rett));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+      // }
+//            try {
+//
+//                File videofiles = new File(videoUri.getPath());
+//                    videofiles.delete();
+//                mVideoView.release();
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+////
+//   }
+//}
